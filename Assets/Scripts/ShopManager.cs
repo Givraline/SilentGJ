@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] GameObject ShopObject;
+    [SerializeField] Button ShopBtn;
     bool activated=false;
 
     [Header("Money")]
@@ -103,6 +104,7 @@ public class ShopManager : MonoBehaviour
     bool cd = false;
 
     void Start(){
+        ShopBtn.onClick.AddListener(OpenShop);
         LogBtn.onClick.AddListener(BuyLog);
         RareLogBtn.onClick.AddListener(BuyRareLog);
         EpicLogBtn.onClick.AddListener(BuyEpicLog);
@@ -152,6 +154,19 @@ public class ShopManager : MonoBehaviour
             Leaf++;
             leafAmount.SetText(Leaf.ToString());
         }        
+    }
+
+    void OpenShop(){
+        if(!cd){
+            StartCoroutine(cooldown());
+            if(activated){
+                ShopObject.SetActive(true);
+                activated=false;
+            }else{
+                ShopObject.SetActive(false);
+                activated=true;
+            }  
+        }
     }
 
     void BuyLog(){
