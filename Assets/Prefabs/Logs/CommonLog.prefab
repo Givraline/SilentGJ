@@ -432,7 +432,6 @@ GameObject:
   - component: {fileID: 4458285809799213415}
   - component: {fileID: 269492678399395217}
   - component: {fileID: 4727774538196622}
-  - component: {fileID: 2398612915007795209}
   - component: {fileID: 7421290235474373473}
   - component: {fileID: 2994878603465501560}
   - component: {fileID: 7191407244782051506}
@@ -538,7 +537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182b3506c4705bc4094b7285fa590f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 2398612915007795209}
   speed: 5
   jumpingPower: 5
   rb: {fileID: 7191407244782051506}
@@ -564,29 +562,6 @@ MonoBehaviour:
   fruitable: 1
   biscuitable: 1
   breadable: 1
---- !u!114 &2398612915007795209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2315426921412819014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e9307c48089d9b4cbcb05911cf48ba5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_JumpForce: 400
-  m_MovementSmoothing: 0.05
-  m_AirControl: 0
-  m_WhatIsGround:
-    serializedVersion: 2
-    m_Bits: 8
-  m_GroundCheck: {fileID: 8482958704671739363}
-  m_CeilingCheck: {fileID: 3765406276932426297}
-  OnLandEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7421290235474373473
 MonoBehaviour:
   m_ObjectHideFlags: 0

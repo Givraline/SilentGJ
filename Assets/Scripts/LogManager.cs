@@ -5,7 +5,6 @@ using UnityEngine;
 public class LogManager : MonoBehaviour
 {
     [Header("Movements")]
-    public CharacterController2D controller;
 
 	bool jump = false;
 
