@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 
@@ -9,21 +10,20 @@ public class ItemDisplayScript : MonoBehaviour
 
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _priceText;
+    private Item _item;
 
-    void Config(ShopManager shopManager)
+    public void Config(ShopManager shopManager, Item item)
     {
         _shopManager = shopManager;
-        // _item = item;
+        _item = item;
+        _nameText.text = item.name;
+        _priceText.text = $"Price: {item.Cost}";
+
     }
 
     public void BuyItem()
     {
-        // _shopManager.BuyItem(this.itemType);
+        _shopManager.BuyItem(_item.Name);
     }
-
-    private void SetPriceText()
-    {
-        int amount = 0;
-        _priceText.text = $"Price: {amount}";
-    }
+    
 }

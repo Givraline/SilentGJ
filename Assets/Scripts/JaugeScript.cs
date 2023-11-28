@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
 using UnityEngine;
 
 public class JaugeScript : MonoBehaviour
@@ -57,23 +58,23 @@ public class JaugeScript : MonoBehaviour
                 }
                 ChangeJauge();
                 if(whatType=="Berries"){
-                    shopManager.actualBerries--;
+                    shopManager.GetDataHolderOf(ItemName.Berries).AddAmount(-1);
                 }else if(whatType=="Pear"){
-                    shopManager.actualPear--;
+                    shopManager.GetDataHolderOf(ItemName.Pear).AddAmount(-1);
                 }else if(whatType=="Orange"){
-                    shopManager.actualOrange--;
+                    shopManager.GetDataHolderOf(ItemName.Orange).AddAmount(-1);
                 }else if(whatType=="Shortbread"){
-                    shopManager.actualShortBread--;
+                    shopManager.GetDataHolderOf(ItemName.Shortbread).AddAmount(-1);
                 }else if(whatType=="Cookie"){
-                    shopManager.actualCookie--;
+                    shopManager.GetDataHolderOf(ItemName.Cookie).AddAmount(-1);
                 }else if(whatType=="GingerBread"){
-                    shopManager.actualGingerBread--;
+                    shopManager.GetDataHolderOf(ItemName.Gingerbread).AddAmount(-1);
                 }else if(whatType=="BreadSlice"){
-                    shopManager.actualSliceOfBread--;
+                    shopManager.GetDataHolderOf(ItemName.BreadSlice).AddAmount(-1);
                 }else if(whatType=="RoundBread"){
-                    shopManager.actualRoundBread--;
+                    shopManager.GetDataHolderOf(ItemName.RoundBread).AddAmount(-1);
                 }else if(whatType=="Bun"){
-                    shopManager.actualBun--;
+                    shopManager.GetDataHolderOf(ItemName.Bun).AddAmount(-1);
                 }
                 Destroy(whatObject);
             }
