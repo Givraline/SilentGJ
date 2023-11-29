@@ -1,40 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Enums;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class JaugeScript : MonoBehaviour
 {
-    [Header("Jauge bars")]
-    Vector3 localScale;
-    float maxBarAmount;
-    [HideInInspector] public float barAmount;
-    [SerializeField] bool Health;
-    [HideInInspector] public LogManager logManager;
-    ShopManager shopManager;
-    [HideInInspector] public float multiplier;
+    [Header("Jauge bars")] private Vector3 _localScale;
+    private float _maxBarAmount;
+    [FormerlySerializedAs("barAmount")] [HideInInspector] public float _barAmount;
+    [FormerlySerializedAs("Health")] [SerializeField]
+    private bool _health;
+    [FormerlySerializedAs("logManager")] [HideInInspector] public LogManager _logManager;
+    private ShopManager _shopManager;
+    [FormerlySerializedAs("multiplier")] [HideInInspector] public float _multiplier;
 
-    void Start(){
-        maxBarAmount = transform.GetChild(0).transform.localScale.x;
-        barAmount = 0;
-        localScale = transform.GetChild(0).transform.localScale;
-        if(!Health){
+    private void Start(){
+        _maxBarAmount = transform.GetChild(0).transform.localScale.x;
+        _barAmount = 0;
+        _localScale = transform.GetChild(0).transform.localScale;
+        if(!_health){
             ChangeJauge();
         }else{
-            barAmount = maxBarAmount;
+            _barAmount = _maxBarAmount;
         }
-        shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
+        _shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
     }
 
     public void ChangeJauge(){
-        localScale.x = barAmount;
-        transform.GetChild(0).transform.localScale = localScale;
+        _localScale.x = _barAmount;
+        transform.GetChild(0).transform.localScale = _localScale;
     }
 
     public void UseObject(int howMuchToAdd, GameObject whatObject, string whatType){
-        if(!Health){
-            if(barAmount<maxBarAmount){
-                barAmount+= maxBarAmount*((howMuchToAdd/multiplier)*0.01f);
+        if(!_health){
+            if(_barAmount<_maxBarAmount){
+                _barAmount+= _maxBarAmount*((howMuchToAdd/_multiplier)*0.01f);
                 // if(whatType=="fruit" && logManager.fruitable){
                 //     logManager.fruitable=false;
                 //     StartCoroutine(logManager.Cooldown(logManager.CooldownFruits));
@@ -45,47 +46,84 @@ public class JaugeScript : MonoBehaviour
                 //     logManager.breadable=false;
                 //     StartCoroutine(logManager.Cooldown(logManager.CooldownBread));
                 // }
-                if(barAmount>=maxBarAmount){
-                    barAmount = maxBarAmount;
+                if(_barAmount>=_maxBarAmount){
+                    _barAmount = _maxBarAmount;
                     if(whatType=="Berries" || whatType=="Pear" || whatType=="Orange"){
-                        logManager.fruitAmount = 100;
+                        _logManager._fruitAmount = 100;
                     }else if(whatType=="Shortbread" || whatType=="Cookie" || whatType=="Gingerbread"){
-                        logManager.biscuitAmount = 100;
+                        _logManager._biscuitAmount = 100;
                     }else if(whatType=="BreadSlice" || whatType=="RoundBread" || whatType=="Bun"){
-                        logManager.breadAmount = 100;
+                        _logManager._breadAmount = 100;
                     }
-                    logManager.checkUpJauges();
+                    _logManager.CheckUpJauges();
                 }
                 ChangeJauge();
                 if(whatType=="Berries"){
-                    shopManager.GetDataHolderOf(ItemName.Berries).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Berries).AddAmount(-1);
                 }else if(whatType=="Pear"){
-                    shopManager.GetDataHolderOf(ItemName.Pear).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Pear).AddAmount(-1);
                 }else if(whatType=="Orange"){
-                    shopManager.GetDataHolderOf(ItemName.Orange).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Orange).AddAmount(-1);
                 }else if(whatType=="Shortbread"){
-                    shopManager.GetDataHolderOf(ItemName.Shortbread).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Shortbread).AddAmount(-1);
                 }else if(whatType=="Cookie"){
-                    shopManager.GetDataHolderOf(ItemName.Cookie).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Cookie).AddAmount(-1);
                 }else if(whatType=="GingerBread"){
-                    shopManager.GetDataHolderOf(ItemName.Gingerbread).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Gingerbread).AddAmount(-1);
                 }else if(whatType=="BreadSlice"){
-                    shopManager.GetDataHolderOf(ItemName.BreadSlice).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.BreadSlice).AddAmount(-1);
                 }else if(whatType=="RoundBread"){
-                    shopManager.GetDataHolderOf(ItemName.RoundBread).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.RoundBread).AddAmount(-1);
                 }else if(whatType=="Bun"){
-                    shopManager.GetDataHolderOf(ItemName.Bun).AddAmount(-1);
+                    _shopManager.GetDataHolderOf(ItemName.Bun).AddAmount(-1);
                 }
                 Destroy(whatObject);
             }
         }else{
-            barAmount-=maxBarAmount*(howMuchToAdd*0.01f);
-            logManager.healthAmount = barAmount;
-            if(barAmount<=0){
-                barAmount=0;
+            _barAmount-=_maxBarAmount*(howMuchToAdd*0.01f);
+            _logManager._healthAmount = _barAmount;
+            if(_barAmount<=0){
+                _barAmount=0;
             }
             ChangeJauge();
-            logManager.LogHealthCheckUp();
+            _logManager.LogHealthCheckUp();
         }
+    }
+
+    public void UseObject(Item item, GameObject whatObject)
+    {
+        if (_health) return;
+        if (!(_barAmount < _maxBarAmount)) return;
+        
+        _barAmount+= _maxBarAmount*((item.FoodValue/_multiplier)*0.01f);
+
+        if(_barAmount>=_maxBarAmount){
+            _barAmount = _maxBarAmount;
+
+            switch (item.Type)
+            {
+                case ItemType.Null:
+                    Debug.LogWarning("Null ItemType passed to UseObject");
+                    break;
+                case ItemType.Biscuits:
+                    _logManager._biscuitAmount = 100;
+                    break;
+                case ItemType.Bread:
+                    _logManager._breadAmount = 100;
+                    break;
+                case ItemType.Fruits:
+                    _logManager._fruitAmount = 100;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(item.Type), item.Type, null);
+            }
+                    
+            _logManager.CheckUpJauges();
+        }
+        ChangeJauge();
+                
+        _shopManager.GetDataHolderOf(item.Name).AddAmount(-1);
+                
+        Destroy(whatObject);
     }
 }

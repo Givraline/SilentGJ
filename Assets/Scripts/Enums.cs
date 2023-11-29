@@ -20,4 +20,12 @@
         Bread = 2,
         Fruits = 3,
     }
+
+    public enum ItemTier
+    {
+        Common = 0,
+        Uncommon = 1,
+        Rare = 2,
+        
+    }
 }

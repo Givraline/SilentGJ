@@ -11,11 +11,15 @@ namespace ScriptableObjects
         [SerializeField] private GameObject _prefab;
         [SerializeField] private int _maxCount;
         [SerializeField] private int _cost;
+        [SerializeField] private ItemTier _itemTier;
+        [SerializeField] private int _foodValue;
 
         public ItemType Type => _itemType;
         public ItemName Name => _itemName;
         public GameObject Prefab => _prefab;
         public int Cost => _cost;
-        public int MaxCount => _maxCount;
+        public int MaxCount => _maxCount; 
+        public ItemTier Tier => _itemTier;
+        public int FoodValue => _foodValue;
     }
 }
