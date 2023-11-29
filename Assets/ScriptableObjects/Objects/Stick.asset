@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7289e57779844bf2b2e398626b51763f, type: 3}
   m_Name: Stick
   m_EditorClassIdentifier: 
-  _itemType: 0
+  _itemType: 4
   _itemName: 0
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 8572783553307974528, guid: 2a174b80993d291458e8859f23996681, type: 3}
   _itemTier: 0
   _cost: 0
   _maxCount: 0
-  _value: 0
+  _value: 20
   _logHealth: 0
   _logMultiplier: 0
   _logHealthCooldown: 0

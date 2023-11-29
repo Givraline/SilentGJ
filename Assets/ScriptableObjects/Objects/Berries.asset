@@ -16,8 +16,12 @@ MonoBehaviour:
   _itemName: 7
   _prefab: {fileID: 7903195548492724780, guid: 725d6853b1aa7d44aaf6faebdf402778, type: 3}
   _itemTier: 0
-  _maxCount: 2
   _cost: 0
-  _foodValue: 0
+  _maxCount: 2
+  _value: 60
   _logHealth: 0
   _logMultiplier: 0
+  _logHealthCooldown: 0
+  _logFruitsCooldown: 0
+  _logBiscuitsCooldown: 0
+  _logBreadCooldown: 0
