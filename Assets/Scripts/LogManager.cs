@@ -129,8 +129,6 @@ public class LogManager : MonoBehaviour
             {
                 switch (foodScript.GetItem.Type)
                 {
-                    case ItemType.Null:
-                        break;
                     case ItemType.Biscuits:
                         StartCoroutine(CooldownBiscuit(_cooldownBiscuits));
                         break;

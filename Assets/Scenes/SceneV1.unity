@@ -1030,25 +1030,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7197aca2722bc498c5b5c8fd02520a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopObject: {fileID: 4326149}
-  ShopBtn: {fileID: 2031910478}
-  Leaf: 0
-  leafAmount: {fileID: 340205306}
-  delayAmount: 2
-  LogPrb: {fileID: 2315426921412819014, guid: d848afd72114bd7479d1c28a7d93654a, type: 3}
-  LogPrice: {fileID: 0}
-  LogsPriceNumber: 0
-  LogBtn: {fileID: 0}
-  maxLogs: 4
-  actualLogs: 0
-  RareLogPrb: {fileID: 8607807836454058795, guid: d4bbae90038b6b0438ffc24bd252f5bd, type: 3}
-  RareLogPrice: {fileID: 0}
-  RareLogsPriceNumber: 75
-  RareLogBtn: {fileID: 0}
-  EpicLogPrb: {fileID: 288380906158813287, guid: 95f1d7524a1d2f94daab04542e73fbe4, type: 3}
-  EpicLogPrice: {fileID: 0}
-  EpicLogsPriceNumber: 150
-  EpicLogBtn: {fileID: 0}
+  _shopObject: {fileID: 4326149}
+  _leaf: 0
+  _leafAmount: {fileID: 340205306}
+  _delayAmount: 2
+  _logPrb: {fileID: 2315426921412819014, guid: d848afd72114bd7479d1c28a7d93654a, type: 3}
+  _logPrice: {fileID: 0}
+  _logsPriceNumber: 0
+  _logBtn: {fileID: 0}
+  _maxLogs: 4
+  _actualLogs: 0
+  _rareLogPrb: {fileID: 8607807836454058795, guid: d4bbae90038b6b0438ffc24bd252f5bd, type: 3}
+  _rareLogPrice: {fileID: 0}
+  _rareLogsPriceNumber: 75
+  _rareLogBtn: {fileID: 0}
+  _epicLogPrb: {fileID: 288380906158813287, guid: 95f1d7524a1d2f94daab04542e73fbe4, type: 3}
+  _epicLogPrice: {fileID: 0}
+  _epicLogsPriceNumber: 150
+  _epicLogBtn: {fileID: 0}
   _items:
   - {fileID: 11400000, guid: 6270cc4609bef1f47b47eaf2eefc9b4b, type: 2}
   - {fileID: 11400000, guid: 177db2fc0319e814bad930d457f900d7, type: 2}
@@ -1059,6 +1058,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ff2638f830fe0e4a9455e1c965ed94f, type: 2}
   - {fileID: 11400000, guid: 3a8c01a59afefc3438b13ca565b7b299, type: 2}
   - {fileID: 11400000, guid: 284e412c1a26eb546ad395ef65bfb2de, type: 2}
+  - {fileID: 11400000, guid: 9b7c0b7470c1b624c879ef1fa88727ae, type: 2}
+  - {fileID: 11400000, guid: 5d3f7cea42109a84eb75278b225933cc, type: 2}
+  - {fileID: 11400000, guid: b196b82c600cef244b0e089e986c35b0, type: 2}
   _itemDisplayPrefab: {fileID: 9178843438185119357, guid: 7507069bdbebc7c488cbf6c308a87700, type: 3}
   _pagesContent:
   - {fileID: 73980148}

@@ -102,9 +102,9 @@ public class JaugeScript : MonoBehaviour
 
             switch (item.Type)
             {
-                case ItemType.Null:
+                /*case ItemType.Null:
                     Debug.LogWarning("Null ItemType passed to UseObject");
-                    break;
+                    break;*/
                 case ItemType.Biscuits:
                     _logManager._biscuitAmount = 100;
                     break;

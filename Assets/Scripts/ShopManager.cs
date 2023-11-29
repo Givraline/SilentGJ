@@ -125,7 +125,10 @@ public class ShopManager : MonoBehaviour
             StartCoroutine(Cooldown());
             WriteLeaf(dataHolder.Cost);
             FoodScript foodScript = Instantiate(dataHolder.Prefab).GetComponent<FoodScript>();
-            foodScript.SetItem(dataHolder.Item);
+            if (dataHolder.Type != ItemType.Log)
+            {
+                foodScript.SetItem(dataHolder.Item);
+            }
         }
     }
 
@@ -150,6 +153,7 @@ public class DataHolder{
     public Item Item { get; private set; }
     public int MaxCount => Item.MaxCount;
     public int Cost => Item.Cost;
+    public ItemType Type => Item.Type;
     public GameObject Prefab => Item.Prefab;
     
     public DataHolder(Item item)
