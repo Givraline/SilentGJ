@@ -66,6 +66,9 @@ public class LogManager : MonoBehaviour
         _itemJaugeDic[ItemType.Biscuits] = _biscuitsJauge;
         _itemJaugeDic[ItemType.Bread] = _breadJauge;
         _itemJaugeDic[ItemType.Fruits] = _fruitJauge;
+        _fruitable = true;
+        _biscuitable = true;
+        _breadable = true;
     }
 
     private void Start() 

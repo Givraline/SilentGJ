@@ -8,7 +8,7 @@ public class JaugeScript : MonoBehaviour
 {
     [Header("Jauge bars")] private Vector3 _localScale;
     private float _maxBarAmount;
-    [FormerlySerializedAs("barAmount")] [HideInInspector] public float _barAmount;
+    [FormerlySerializedAs("barAmount")] public float _barAmount;
     [FormerlySerializedAs("Health")] [SerializeField]
     private bool _health;
     [FormerlySerializedAs("logManager")] [HideInInspector] public LogManager _logManager;
