@@ -11,8 +11,8 @@ namespace ScriptableObjects
         [SerializeField] private ItemName _itemName;
         [SerializeField] private GameObject _prefab;
         [SerializeField] private ItemTier _itemTier;
-        [SerializeField, HideIf("_itemType", ItemType.Log)] private int _maxCount;
-        [SerializeField, HideIf("_itemType", ItemType.Log)] private int _cost;
+        [SerializeField] private int _cost;
+        [SerializeField] private int _maxCount;
         [SerializeField, HideIf("_itemType", ItemType.Log)] private int _foodValue;
         
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logHealth;
@@ -22,7 +22,7 @@ namespace ScriptableObjects
         public ItemName Name => _itemName;
         public GameObject Prefab => _prefab;
         public int Cost => _cost;
-        public int MaxCount => _maxCount; 
+        public int MaxCount => _maxCount;
         public ItemTier Tier => _itemTier;
         public int FoodValue => _foodValue;
     }
