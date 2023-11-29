@@ -19,6 +19,7 @@
         Biscuits = 1,
         Bread = 2,
         Fruits = 3,
+        Log = 69,
     }
 
     public enum ItemTier

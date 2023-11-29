@@ -13,6 +13,8 @@ namespace ScriptableObjects
         [SerializeField] private int _cost;
         [SerializeField] private ItemTier _itemTier;
         [SerializeField] private int _foodValue;
+        
+        [SerializeField] private int _logHealth;
 
         public ItemType Type => _itemType;
         public ItemName Name => _itemName;
