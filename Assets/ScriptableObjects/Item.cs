@@ -1,4 +1,5 @@
 ﻿using Enums;
+using GraphicsLabor.Scripts.Attributes.LaborerAttributes.InspectedAttributes;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -9,12 +10,13 @@ namespace ScriptableObjects
         [SerializeField] private ItemType _itemType;
         [SerializeField] private ItemName _itemName;
         [SerializeField] private GameObject _prefab;
-        [SerializeField] private int _maxCount;
-        [SerializeField] private int _cost;
         [SerializeField] private ItemTier _itemTier;
-        [SerializeField] private int _foodValue;
+        [SerializeField, HideIf("_itemType", ItemType.Log)] private int _maxCount;
+        [SerializeField, HideIf("_itemType", ItemType.Log)] private int _cost;
+        [SerializeField, HideIf("_itemType", ItemType.Log)] private int _foodValue;
         
-        [SerializeField] private int _logHealth;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logHealth;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logMultiplier;
 
         public ItemType Type => _itemType;
         public ItemName Name => _itemName;

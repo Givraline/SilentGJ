@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.jaribou.graphicslabor": {
+      "version": "https://github.com/JariBou/GraphicsLabor.git?path=Assets/GraphicsLabor",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a8d139ca3dcd109ac5c7034f4e162895eeef5adc"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
