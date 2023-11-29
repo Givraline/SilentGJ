@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Enums;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -45,34 +47,46 @@ public class LogManager : MonoBehaviour
     [FormerlySerializedAs("biscuitAmount")] [HideInInspector] public float _biscuitAmount;
     [FormerlySerializedAs("breadAmount")] [HideInInspector] public float _breadAmount;
     private bool _hittable = false;
-
-    [FormerlySerializedAs("multiplier")] public float _multiplier;
-
+    
     [FormerlySerializedAs("CooldownHealth")] [Header("Cooldowns")]
-    public float _cooldownHealth = 0.2f;
-    [FormerlySerializedAs("CooldownFruits")] public float _cooldownFruits = 15f;
-    [FormerlySerializedAs("CooldownBiscuits")] public float _cooldownBiscuits = 20f;
-    [FormerlySerializedAs("CooldownBread")] public float _cooldownBread = 30f;
 
     [FormerlySerializedAs("fruitable")] [HideInInspector] public bool _fruitable=true;
     [FormerlySerializedAs("biscuitable")] [HideInInspector] public bool _biscuitable=true;
     [FormerlySerializedAs("breadable")] [HideInInspector] public bool _breadable=true;
 
+    private Item _logItem;
+    private ShopManager _shopManager;
+
     private float _amountOfFood = 0;
     [SerializeField] private ItemTier _tier;
+    private Dictionary<ItemType, JaugeScript> _itemJaugeDic = new Dictionary<ItemType, JaugeScript>(4);
 
+    private void Awake()
+    {
+        _itemJaugeDic[ItemType.Biscuits] = _biscuitsJauge;
+        _itemJaugeDic[ItemType.Bread] = _breadJauge;
+        _itemJaugeDic[ItemType.Fruits] = _fruitJauge;
+    }
 
-    private void Start(){
-        _healthJauge._logManager = GetComponent<LogManager>();
-        _healthJauge._multiplier = _multiplier;
-        _fruitJauge._logManager = GetComponent<LogManager>();
-        _fruitJauge._multiplier = _multiplier;
-        _biscuitsJauge._logManager = GetComponent<LogManager>();
-        _biscuitsJauge._multiplier = _multiplier;
-        _breadJauge._logManager = GetComponent<LogManager>();
-        _breadJauge._multiplier = _multiplier;
+    private void Start() 
+    {
         _healthBar.SetActive(false);
         StartCoroutine(Moving());
+    }
+
+    public LogManager Config(ShopManager manager, Item logItem)
+    {
+        _shopManager = manager;
+        _logItem = logItem;
+        _healthJauge._logManager = this;
+        _healthJauge._multiplier = _logItem.LogMultiplier;
+        _fruitJauge._logManager = this;
+        _fruitJauge._multiplier = _logItem.LogMultiplier;
+        _biscuitsJauge._logManager = this;
+        _biscuitsJauge._multiplier = _logItem.LogMultiplier;
+        _breadJauge._logManager = this;
+        _breadJauge._multiplier = _logItem.LogMultiplier;
+        return this;
     }
 
     private void Update(){
@@ -125,43 +139,35 @@ public class LogManager : MonoBehaviour
         FoodScript foodScript = col.gameObject.GetComponent<FoodScript>();
         if(foodScript != null){
 
-            if ((int)foodScript.GetItem.Tier <= (int)_tier)
+            if ((int)foodScript.GetItem.Tier >= (int)_tier)
             {
                 switch (foodScript.GetItem.Type)
                 {
                     case ItemType.Biscuits:
-                        StartCoroutine(CooldownBiscuit(_cooldownBiscuits));
+                        if (!_biscuitable) return;
+                        StartCoroutine(CooldownBiscuit(_logItem.LogBiscuitsCooldown));
                         break;
                     case ItemType.Bread:
-                        StartCoroutine(CooldownBread(_cooldownBread));
+                        if(!_breadable) return;
+                        StartCoroutine(CooldownBread(_logItem.LogBreadCooldown));
                         break;
                     case ItemType.Fruits:
-                        StartCoroutine(CooldownFruit(_cooldownFruits));
+                        if (!_fruitable) return;
+                        StartCoroutine(CooldownFruit(_logItem.LogFruitsCooldown));
                         break;
+                    case ItemType.Log:
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                _fruitJauge.UseObject(foodScript.GetItem, col.gameObject);
-            }
-            
-            if((col.transform.CompareTag("Berries") || col.transform.CompareTag("Pear") || col.transform.CompareTag("Orange")) && _fruitable){
-                _fruitable=false;
-                _fruitJauge.UseObject(foodScript._value, col.gameObject, col.transform.tag);
-            }else if((col.transform.CompareTag("Shortbread") || col.transform.CompareTag("Cookie") || col.transform.CompareTag("Gingerbread")) && _biscuitable){
-                _biscuitable=false;
-                _biscuitsJauge.UseObject(foodScript._value, col.gameObject, col.transform.tag);
-            }else if((col.transform.CompareTag("BreadSlice") || col.transform.CompareTag("RoundBread") || col.transform.CompareTag("Bun")) && _breadable){
-                _breadable=false;
-                StartCoroutine(CooldownBread(_cooldownBread));
-                _breadJauge.UseObject(foodScript._value, col.gameObject, col.transform.tag);
+                _itemJaugeDic[foodScript.GetItem.Type].UseObject(foodScript.GetItem, col.gameObject);
             }
             _amountOfFood++;
         }
         
         if(_hittable && col.gameObject.GetComponent<StickScript>() != null){
             if(col.transform.CompareTag("Stick")){
-                StartCoroutine(CooldownHit(_cooldownHealth));
-                _healthJauge.UseObject(col.gameObject.GetComponent<StickScript>()._value, col.gameObject, "stick");
+                StartCoroutine(CooldownHit(_logItem.LogHealthCooldown));
+                _healthJauge.UseObject(col.gameObject.GetComponent<StickScript>().GetItem, col.gameObject);
             }
         }
     }
@@ -177,10 +183,10 @@ public class LogManager : MonoBehaviour
     public void LogHealthCheckUp(){
         if(_healthAmount<=0){
             _hittable = false;
-            Debug.Log("you got "+Mathf.RoundToInt(_amountOfFood*5)+" leafs");
-            GameObject.Find("ShopManager").GetComponent<ShopManager>()._leaf += Mathf.RoundToInt((_amountOfFood*15)*_multiplier);
-            GameObject.Find("ShopManager").GetComponent<ShopManager>()._actualLogs--;
-            Destroy(this.gameObject);
+            Debug.Log("you got "+Mathf.RoundToInt(_amountOfFood*15*_logItem.LogMultiplier)+" leafs");
+            _shopManager._leaf += Mathf.RoundToInt((_amountOfFood*15)*_logItem.LogMultiplier);
+            _shopManager._actualLogs--;
+            Destroy(gameObject);
         }
     }
 
@@ -196,20 +202,20 @@ public class LogManager : MonoBehaviour
     {
         _fruitable = false;
         yield return new WaitForSeconds(cd);
-        _fruitable=true;
+        _fruitable=_fruitAmount<100;
     }
 
     private IEnumerator CooldownBiscuit(float cd)
     {
         _biscuitable = false;
         yield return new WaitForSeconds(cd);
-        _biscuitable=true;
+        _biscuitable=_biscuitAmount<100;
     }
 
     private IEnumerator CooldownBread(float cd)
     {
         _breadable = false;
         yield return new WaitForSeconds(cd);
-        _breadable=true;
+        _breadable=_breadAmount<100;
     }
 }

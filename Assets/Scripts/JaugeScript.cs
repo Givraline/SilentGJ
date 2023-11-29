@@ -92,38 +92,45 @@ public class JaugeScript : MonoBehaviour
 
     public void UseObject(Item item, GameObject whatObject)
     {
-        if (_health) return;
-        if (!(_barAmount < _maxBarAmount)) return;
-        
-        _barAmount+= _maxBarAmount*((item.FoodValue/_multiplier)*0.01f);
-
-        if(_barAmount>=_maxBarAmount){
-            _barAmount = _maxBarAmount;
-
-            switch (item.Type)
-            {
-                /*case ItemType.Null:
-                    Debug.LogWarning("Null ItemType passed to UseObject");
-                    break;*/
-                case ItemType.Biscuits:
-                    _logManager._biscuitAmount = 100;
-                    break;
-                case ItemType.Bread:
-                    _logManager._breadAmount = 100;
-                    break;
-                case ItemType.Fruits:
-                    _logManager._fruitAmount = 100;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(item.Type), item.Type, null);
+        if (_health)
+        {
+            _barAmount-=_maxBarAmount*(item.Value*0.01f);
+            _logManager._healthAmount = _barAmount;
+            if(_barAmount<=0){
+                _barAmount=0;
             }
-                    
-            _logManager.CheckUpJauges();
+            _logManager.LogHealthCheckUp();
         }
+        else
+        {
+            if (Math.Abs(_barAmount - _maxBarAmount) < 0.0001f) return;
+        
+            _barAmount+= _maxBarAmount*((item.Value/_multiplier)*0.01f);
+
+            if(_barAmount>=_maxBarAmount){
+                _barAmount = _maxBarAmount;
+
+                switch (item.Type)
+                {
+                    case ItemType.Biscuits:
+                        _logManager._biscuitAmount = 100;
+                        break;
+                    case ItemType.Bread:
+                        _logManager._breadAmount = 100;
+                        break;
+                    case ItemType.Fruits:
+                        _logManager._fruitAmount = 100;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(item.Type), item.Type, null);
+                }
+                    
+                _logManager.CheckUpJauges();
+            } 
+            _shopManager.GetDataHolderOf(item.Name).AddAmount(-1);
+            Destroy(whatObject);
+        }
+        
         ChangeJauge();
-                
-        _shopManager.GetDataHolderOf(item.Name).AddAmount(-1);
-                
-        Destroy(whatObject);
     }
 }

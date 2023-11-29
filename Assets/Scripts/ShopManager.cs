@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Enums;
@@ -124,11 +125,24 @@ public class ShopManager : MonoBehaviour
             dataHolder.AddAmount(1);
             StartCoroutine(Cooldown());
             WriteLeaf(dataHolder.Cost);
-            FoodScript foodScript = Instantiate(dataHolder.Prefab).GetComponent<FoodScript>();
-            if (dataHolder.Type != ItemType.Log)
+
+            switch (dataHolder.Type)
             {
-                foodScript.SetItem(dataHolder.Item);
+                case ItemType.Log:
+                    LogManager logScript = Instantiate(dataHolder.Prefab).GetComponent<LogManager>();
+                    logScript.Config(this, dataHolder.Item);
+                    break;
+                case ItemType.Biscuits:
+                case ItemType.Bread:
+                case ItemType.Fruits:
+                    FoodScript foodScript = Instantiate(dataHolder.Prefab).GetComponent<FoodScript>();
+                    foodScript.SetItem(dataHolder.Item);
+                    break;
+                case ItemType.Stick:
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+            
         }
     }
 

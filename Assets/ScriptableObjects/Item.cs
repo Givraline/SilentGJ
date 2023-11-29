@@ -1,6 +1,7 @@
 ﻿using Enums;
 using GraphicsLabor.Scripts.Attributes.LaborerAttributes.InspectedAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
@@ -13,10 +14,14 @@ namespace ScriptableObjects
         [SerializeField] private ItemTier _itemTier;
         [SerializeField] private int _cost;
         [SerializeField] private int _maxCount;
-        [SerializeField, HideIf("_itemType", ItemType.Log)] private int _foodValue;
+        [FormerlySerializedAs("_foodValue")] [SerializeField, HideIf("_itemType", ItemType.Log)] private int _value;
         
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logHealth;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logMultiplier;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logHealthCooldown;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logFruitsCooldown;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logBiscuitsCooldown;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logBreadCooldown;
 
         public ItemType Type => _itemType;
         public ItemName Name => _itemName;
@@ -24,6 +29,13 @@ namespace ScriptableObjects
         public int Cost => _cost;
         public int MaxCount => _maxCount;
         public ItemTier Tier => _itemTier;
-        public int FoodValue => _foodValue;
+        public int Value => _value;
+
+        public int LogHealth => _logHealth;
+        public int LogMultiplier => _logMultiplier;
+        public float LogHealthCooldown => _logHealthCooldown;
+        public float LogFruitsCooldown => _logFruitsCooldown;
+        public float LogBiscuitsCooldown => _logBiscuitsCooldown;
+        public float LogBreadCooldown => _logBreadCooldown;
     }
 }
