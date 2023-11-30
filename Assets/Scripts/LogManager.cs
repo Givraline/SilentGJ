@@ -205,8 +205,8 @@ public class LogManager : MonoBehaviour
     public void LogHealthCheckUp(){
         if(_healthAmount<=0){
             _hittable = false;
-            Debug.Log("you got "+Mathf.RoundToInt(_amountOfFood*15*_logItem.LogMultiplier)+" leafs");
-            _shopManager._leaf += Mathf.RoundToInt((_amountOfFood*15)*_logItem.LogMultiplier);
+            Debug.Log("you got "+_logItem.GetRandomLeafDeathAmount+" leafs");
+            _shopManager.AddLeaf(_logItem.GetRandomLeafDeathAmount);
             _shopManager._actualLogs--;
             Destroy(gameObject);
         }
