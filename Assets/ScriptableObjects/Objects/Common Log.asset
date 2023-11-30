@@ -20,7 +20,7 @@ MonoBehaviour:
   _maxCount: 4
   _value: 0
   _logHealth: 0
-  _logMultiplier: 1
+  _logMultiplier: 500000
   _logPassiveLeafCooldown: 6.5
   _logHealthCooldown: 0.2
   _logFruitsCooldown: 20
