@@ -23,6 +23,6 @@ MonoBehaviour:
   _logMultiplier: 2
   _logPassiveLeafCooldown: 10
   _logHealthCooldown: 0.2
-  _logFruitsCooldown: 15
-  _logBiscuitsCooldown: 15
-  _logBreadCooldown: 15
+  _logFruitsCooldown: 30
+  _logBiscuitsCooldown: 30
+  _logBreadCooldown: 30

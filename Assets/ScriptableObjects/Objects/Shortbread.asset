@@ -17,7 +17,7 @@ MonoBehaviour:
   _prefab: {fileID: 5823272843787206051, guid: a3b029817d4286e4d9b40d29172cb5c8, type: 3}
   _itemTier: 0
   _cost: 0
-  _maxCount: 3
+  _maxCount: 4
   _value: 7
   _logHealth: 0
   _logMultiplier: 0
