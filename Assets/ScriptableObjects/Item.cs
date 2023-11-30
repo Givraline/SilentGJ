@@ -1,7 +1,9 @@
-﻿using Enums;
+﻿using System;
+using Enums;
 using GraphicsLabor.Scripts.Attributes.LaborerAttributes.InspectedAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace ScriptableObjects
 {
@@ -23,6 +25,8 @@ namespace ScriptableObjects
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logFruitsCooldown;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logBiscuitsCooldown;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logBreadCooldown;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logMinLeafDeathAmount;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logMaxLeafDeathAmount;
 
         public ItemType Type => _itemType;
         public ItemName Name => _itemName;
@@ -39,5 +43,6 @@ namespace ScriptableObjects
         public float LogBiscuitsCooldown => _logBiscuitsCooldown;
         public float LogBreadCooldown => _logBreadCooldown;
         public float LogPassiveLeafCooldown => _logPassiveLeafCooldown;
+        public int GetRandomLeafDeathAmount => Random.Range(_logMinLeafDeathAmount, _logMaxLeafDeathAmount);
     }
 }
