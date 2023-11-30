@@ -18,7 +18,7 @@ MonoBehaviour:
   _itemTier: 0
   _cost: 200
   _maxCount: 4
-  _value: 45
+  _value: 75
   _logHealth: 0
   _logMultiplier: 0
   _logPassiveLeafCooldown: 0

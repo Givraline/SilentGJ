@@ -130,10 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 1
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 1
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &930549891968930582
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,10 +670,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 0
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 0
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &2209995797142476363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,10 +1040,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 0
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 0
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &3793125154457746891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,10 +1258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 0
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 0
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &5033278658228770419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,8 +1951,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.7, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5790527733996994716}
   - {fileID: 2297587230937347907}
@@ -2036,31 +2036,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182b3506c4705bc4094b7285fa590f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpingPower: 5
-  rb: {fileID: 4269591442834196106}
-  groundCheck: {fileID: 6707756066688801812}
-  groundLayer:
+  _speed: 5
+  _jumpingPower: 5
+  _rb: {fileID: 4269591442834196106}
+  _groundCheck: {fileID: 6707756066688801812}
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  LogImage: {fileID: 5408010432145331967}
-  HealthJauge: {fileID: 5422602413840487421}
-  FruitJauge: {fileID: 8739063553994476897}
-  BiscuitsJauge: {fileID: 1123946257442805009}
-  BreadJauge: {fileID: 2651600786801207818}
-  HealthBar: {fileID: 669508161870781810}
-  healthAmount: 0
-  fruitAmount: 0
-  biscuitAmount: 0
-  breadAmount: 0
-  multiplier: 2
-  CooldownHealth: 0.2
-  CooldownFruits: 15
-  CooldownBiscuits: 20
-  CooldownBread: 30
-  fruitable: 1
-  biscuitable: 1
-  breadable: 1
+  _logImage: {fileID: 5408010432145331967}
+  _healthJauge: {fileID: 5422602413840487421}
+  _fruitJauge: {fileID: 8739063553994476897}
+  _biscuitsJauge: {fileID: 1123946257442805009}
+  _breadJauge: {fileID: 2651600786801207818}
+  _healthBar: {fileID: 669508161870781810}
+  _healthAmount: 0
+  _fruitAmount: 0
+  _biscuitAmount: 0
+  _breadAmount: 0
+  _fruitable: 0
+  _biscuitable: 1
+  _breadable: 1
+  _tier: 0
 --- !u!61 &4118759975201307174
 BoxCollider2D:
   m_ObjectHideFlags: 0

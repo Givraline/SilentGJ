@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.39, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6766026130436607648}
   - {fileID: 8239417384828506484}
@@ -116,31 +116,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182b3506c4705bc4094b7285fa590f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpingPower: 5
-  rb: {fileID: 5541483113571559193}
-  groundCheck: {fileID: 5335308747611214093}
-  groundLayer:
+  _speed: 5
+  _jumpingPower: 5
+  _rb: {fileID: 5541483113571559193}
+  _groundCheck: {fileID: 5335308747611214093}
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  LogImage: {fileID: 9086323884182416453}
-  HealthJauge: {fileID: 3064172056860929172}
-  FruitJauge: {fileID: 7999148953206593114}
-  BiscuitsJauge: {fileID: 3651692716860928904}
-  BreadJauge: {fileID: 4340131040143471219}
-  HealthBar: {fileID: 7662030169304809901}
-  healthAmount: 0
-  fruitAmount: 0
-  biscuitAmount: 0
-  breadAmount: 0
-  multiplier: 4
-  CooldownHealth: 0.2
-  CooldownFruits: 15
-  CooldownBiscuits: 20
-  CooldownBread: 30
-  fruitable: 1
-  biscuitable: 1
-  breadable: 1
+  _logImage: {fileID: 9086323884182416453}
+  _healthJauge: {fileID: 3064172056860929172}
+  _fruitJauge: {fileID: 7999148953206593114}
+  _biscuitsJauge: {fileID: 3651692716860928904}
+  _breadJauge: {fileID: 4340131040143471219}
+  _healthBar: {fileID: 7662030169304809901}
+  _healthAmount: 0
+  _fruitAmount: 0
+  _biscuitAmount: 0
+  _breadAmount: 0
+  _fruitable: 0
+  _biscuitable: 1
+  _breadable: 1
+  _tier: 0
 --- !u!61 &2967259237759012552
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -392,10 +388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 0
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 0
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &3203175425285880167
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,10 +607,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 0
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 0
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &3879788584232401620
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,10 +759,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 0
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 0
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &5434026639482687414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,10 +1520,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc04f0b3d3a09f44d9c327f818d78c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barAmount: 0
-  Health: 1
-  logManager: {fileID: 0}
-  multiplier: 0
+  _barAmount: 0
+  _health: 1
+  _logManager: {fileID: 0}
+  _multiplier: 0
 --- !u!1 &7894781467180139398
 GameObject:
   m_ObjectHideFlags: 0
