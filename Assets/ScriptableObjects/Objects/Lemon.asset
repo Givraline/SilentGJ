@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7289e57779844bf2b2e398626b51763f, type: 3}
-  m_Name: Cookie
+  m_Name: Lemon
   m_EditorClassIdentifier: 
-  _itemType: 1
-  _itemName: 1
-  _prefab: {fileID: 2625948555893522246, guid: 18e1d7240448d1049810a151e653eac9, type: 3}
+  _itemType: 3
+  _itemName: 8
+  _prefab: {fileID: 8148769642130998219, guid: 05c5a746f39dfc64c9adcba093b8babc, type: 3}
   _itemTier: 2
-  _cost: 180
+  _cost: 330
   _maxCount: 4
-  _value: 55
+  _value: 120
   _logHealth: 0
   _logMultiplier: 0
   _logPassiveLeafCooldown: 0
