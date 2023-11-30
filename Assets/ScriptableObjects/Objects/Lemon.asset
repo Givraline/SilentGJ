@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7289e57779844bf2b2e398626b51763f, type: 3}
-  m_Name: Rare Log
+  m_Name: Lemon
   m_EditorClassIdentifier: 
-  _itemType: 0
-  _itemName: 11
-  _prefab: {fileID: 8607807836454058795, guid: d4bbae90038b6b0438ffc24bd252f5bd, type: 3}
-  _itemTier: 1
-  _cost: 350
+  _itemType: 3
+  _itemName: 8
+  _prefab: {fileID: 8148769642130998219, guid: 05c5a746f39dfc64c9adcba093b8babc, type: 3}
+  _itemTier: 2
+  _cost: 330
   _maxCount: 4
-  _value: 0
+  _value: 120
   _logHealth: 0
-  _logMultiplier: 2
-  _logPassiveLeafCooldown: 10
-  _logHealthCooldown: 0.2
-  _logFruitsCooldown: 30
-  _logBiscuitsCooldown: 30
-  _logBreadCooldown: 30
-  _logMinLeafDeathAmount: 300
-  _logMaxLeafDeathAmount: 550
+  _logMultiplier: 0
+  _logPassiveLeafCooldown: 0
+  _logHealthCooldown: 0
+  _logFruitsCooldown: 0
+  _logBiscuitsCooldown: 0
+  _logBreadCooldown: 0
+  _logMinLeafDeathAmount: 0
+  _logMaxLeafDeathAmount: 0

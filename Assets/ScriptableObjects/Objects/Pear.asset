@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemType: 3
   _itemName: 9
   _prefab: {fileID: 5178959486587853119, guid: d9903ddf788586d4fb938a15e082f747, type: 3}
-  _itemTier: 0
+  _itemTier: 1
   _cost: 50
   _maxCount: 4
   _value: 16
@@ -26,3 +26,5 @@ MonoBehaviour:
   _logFruitsCooldown: 0
   _logBiscuitsCooldown: 0
   _logBreadCooldown: 0
+  _logMinLeafDeathAmount: 0
+  _logMaxLeafDeathAmount: 0
