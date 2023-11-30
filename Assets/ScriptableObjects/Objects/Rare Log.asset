@@ -26,3 +26,5 @@ MonoBehaviour:
   _logFruitsCooldown: 30
   _logBiscuitsCooldown: 30
   _logBreadCooldown: 30
+  _logMinLeafDeathAmount: 300
+  _logMaxLeafDeathAmount: 550
