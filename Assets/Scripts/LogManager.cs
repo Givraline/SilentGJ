@@ -1,175 +1,243 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class LogManager : MonoBehaviour
 {
-    [Header("Movements")]
+    [Header("Movements")] private bool _jump = false;
 
-	bool jump = false;
+    private bool _dontMove = false;
+    private float _whatDirection = 0;
 
-    bool DontMove = false;
-    float whatDirection = 0;
+    private float _horizontal;
+    [FormerlySerializedAs("speed")] [SerializeField]
+    private float _speed = 8f;
+    [FormerlySerializedAs("jumpingPower")] [SerializeField]
+    private float _jumpingPower = 10f;
+    [FormerlySerializedAs("rb")] [SerializeField]
+    private Rigidbody2D _rb;
+    [FormerlySerializedAs("groundCheck")] [SerializeField]
+    private Transform _groundCheck;
+    [FormerlySerializedAs("groundLayer")] [SerializeField]
+    private LayerMask _groundLayer;
+    [FormerlySerializedAs("LogImage")] [SerializeField]
+    private SpriteRenderer _logImage;
 
-    float horizontal;
-    [SerializeField] float speed = 8f;
-    [SerializeField] float jumpingPower = 10f;
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] Transform groundCheck;
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] SpriteRenderer LogImage;
 
-
+    [FormerlySerializedAs("HealthJauge")]
     [Header("Jauges")]
-    [SerializeField] JaugeScript HealthJauge;
-    [SerializeField] JaugeScript FruitJauge;
-    [SerializeField] JaugeScript BiscuitsJauge;
-    [SerializeField] JaugeScript BreadJauge;
-    [SerializeField] GameObject HealthBar;
+    [SerializeField]
+    private JaugeScript _healthJauge;
+    [FormerlySerializedAs("FruitJauge")] [SerializeField]
+    private JaugeScript _fruitJauge;
+    [FormerlySerializedAs("BiscuitsJauge")] [SerializeField]
+    private JaugeScript _biscuitsJauge;
+    [FormerlySerializedAs("BreadJauge")] [SerializeField]
+    private JaugeScript _breadJauge;
+    [FormerlySerializedAs("HealthBar")] [SerializeField]
+    private GameObject _healthBar;
 
-    [HideInInspector] public float healthAmount;
-    [HideInInspector] public float fruitAmount;
-    [HideInInspector] public float biscuitAmount;
-    [HideInInspector] public float breadAmount;
-    bool Hittable = false;
+    [FormerlySerializedAs("healthAmount")] [HideInInspector] public float _healthAmount;
+    [FormerlySerializedAs("fruitAmount")] [HideInInspector] public float _fruitAmount;
+    [FormerlySerializedAs("biscuitAmount")] [HideInInspector] public float _biscuitAmount;
+    [FormerlySerializedAs("breadAmount")] [HideInInspector] public float _breadAmount;
+    private bool _hittable = false;
+    
+    [FormerlySerializedAs("CooldownHealth")] [Header("Cooldowns")]
 
-    public float multiplier;
+    [FormerlySerializedAs("fruitable")] [HideInInspector] public bool _fruitable=true;
+    [FormerlySerializedAs("biscuitable")] [HideInInspector] public bool _biscuitable=true;
+    [FormerlySerializedAs("breadable")] [HideInInspector] public bool _breadable=true;
 
-    [Header("Cooldowns")]
-    public float CooldownHealth = 0.2f;
-    public float CooldownFruits = 15f;
-    public float CooldownBiscuits = 20f;
-    public float CooldownBread = 30f;
+    private Item _logItem;
+    private bool _leafGeneration;
 
-    [HideInInspector] public bool fruitable=true;
-    [HideInInspector] public bool biscuitable=true;
-    [HideInInspector] public bool breadable=true;
+    public Item GetLogItem() => _logItem;
+    
+    private ShopManager _shopManager;
 
-    float amountOfFood = 0;
+    public ShopManager GetShopManager() => _shopManager;
 
+    private float _amountOfFood = 0;
+    [SerializeField] private ItemTier _tier;
+    private Dictionary<ItemType, JaugeScript> _itemJaugeDic = new Dictionary<ItemType, JaugeScript>(4);
 
+    private void Awake()
+    {
+        _leafGeneration = true;
+        _itemJaugeDic[ItemType.Biscuits] = _biscuitsJauge;
+        _itemJaugeDic[ItemType.Bread] = _breadJauge;
+        _itemJaugeDic[ItemType.Fruits] = _fruitJauge;
+        _fruitable = true;
+        _biscuitable = true;
+        _breadable = true;
+    }
 
-	void Start(){
-        HealthJauge.logManager = GetComponent<LogManager>();
-        HealthJauge.multiplier = multiplier;
-        FruitJauge.logManager = GetComponent<LogManager>();
-        FruitJauge.multiplier = multiplier;
-        BiscuitsJauge.logManager = GetComponent<LogManager>();
-        BiscuitsJauge.multiplier = multiplier;
-        BreadJauge.logManager = GetComponent<LogManager>();
-        BreadJauge.multiplier = multiplier;
-        HealthBar.SetActive(false);
+    private void Start() 
+    {
+        _healthBar.SetActive(false);
         StartCoroutine(Moving());
     }
 
-	void Update(){
-        if(jump && IsGrounded()){
-            jump=false;
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-        }
-        if(jump && rb.velocity.y > 0f){
-            jump=false;
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
-	}
-
-	void FixedUpdate (){
-        if(!DontMove){
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-            if(horizontal>0){
-                LogImage.flipX=false;
-            }else{
-                LogImage.flipX=true;
-            }
-        }
-	}
-
-    bool IsGrounded(){
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    public LogManager Config(ShopManager manager, Item logItem)
+    {
+        _shopManager = manager;
+        _logItem = logItem;
+        _healthJauge._logManager = this;
+        _healthJauge._multiplier = _logItem.LogMultiplier;
+        _fruitJauge._logManager = this;
+        _fruitJauge._multiplier = _logItem.LogMultiplier;
+        _biscuitsJauge._logManager = this;
+        _biscuitsJauge._multiplier = _logItem.LogMultiplier;
+        _breadJauge._logManager = this;
+        _breadJauge._multiplier = _logItem.LogMultiplier;
+        return this;
     }
 
-    IEnumerator Moving(){
+    private void Update(){
+        if(_jump && IsGrounded()){
+            _jump=false;
+            _rb.velocity = new Vector2(_rb.velocity.x, _jumpingPower);
+        }
+        if(_jump && _rb.velocity.y > 0f){
+            _jump=false;
+            _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
+        }
+        if (_leafGeneration)
+        {
+            _shopManager.AddLeaf(1);
+            StartCoroutine(CooldownLeaves(_logItem.LogPassiveLeafCooldown));
+        }
+	}
+
+    private IEnumerator CooldownLeaves(float cooldown)
+    {
+        _leafGeneration = false;
+        yield return new WaitForSeconds(cooldown);
+        _leafGeneration = true;
+    }
+
+    private void FixedUpdate (){
+        if(!_dontMove){
+            _rb.velocity = new Vector2(_horizontal * _speed, _rb.velocity.y);
+            if(_horizontal>0){
+                _logImage.flipX=false;
+            }else{
+                _logImage.flipX=true;
+            }
+        }
+	}
+
+    private bool IsGrounded(){
+        return Physics2D.OverlapCircle(_groundCheck.position, 0.2f, _groundLayer);
+    }
+
+    private IEnumerator Moving(){
         yield return new WaitForSeconds(Random.Range(3, 12));
-        whatDirection = Random.Range(0, 2);
-        DontMove = false;
-        if(!DontMove){
-            if(whatDirection <= 0.5f){
-                horizontal = -1;
-            }else if(whatDirection > 0.5f){
-                horizontal = 1;
+        _whatDirection = Random.Range(0, 2);
+        _dontMove = false;
+        if(!_dontMove){
+            if(_whatDirection <= 0.5f){
+                _horizontal = -1;
+            }else if(_whatDirection > 0.5f){
+                _horizontal = 1;
             }
             if(Random.Range(2, 4) > 2.5f){
-                jump = true;
+                _jump = true;
             }
         }
         yield return new WaitForSeconds(Random.Range(0.3f, 1.3f));
-        horizontal = 0;
+        _horizontal = 0;
         StartCoroutine(Moving());
     }
 
-    void OnCollisionEnter2D(Collision2D col){
-        if(col.gameObject.GetComponent<FoodScript>() != null){
-            if((col.transform.tag == "Berries" || col.transform.tag == "Pear" || col.transform.tag == "Orange") && fruitable){
-                fruitable=false;
-                StartCoroutine(cooldownFruit(CooldownFruits));
-                FruitJauge.UseObject(col.gameObject.GetComponent<FoodScript>().value, col.gameObject, col.transform.tag);
-            }else if((col.transform.tag == "Shortbread" || col.transform.tag == "Cookie" || col.transform.tag == "Gingerbread") && biscuitable){
-                biscuitable=false;
-                StartCoroutine(cooldownBiscuit(CooldownBiscuits));
-                BiscuitsJauge.UseObject(col.gameObject.GetComponent<FoodScript>().value, col.gameObject, col.transform.tag);
-            }else if((col.transform.tag == "BreadSlice" || col.transform.tag == "RoundBread" || col.transform.tag == "Bun") && breadable){
-                breadable=false;
-                StartCoroutine(cooldownBread(CooldownBread));
-                BreadJauge.UseObject(col.gameObject.GetComponent<FoodScript>().value, col.gameObject, col.transform.tag);
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        FoodScript foodScript = col.gameObject.GetComponent<FoodScript>();
+        if(foodScript != null){
+
+            if ((int)foodScript.GetItem.Tier >= (int)_tier)
+            {
+                switch (foodScript.GetItem.Type)
+                {
+                    case ItemType.Biscuits:
+                        if (!_biscuitable) return;
+                        StartCoroutine(CooldownBiscuit(_logItem.LogBiscuitsCooldown));
+                        break;
+                    case ItemType.Bread:
+                        if(!_breadable) return;
+                        StartCoroutine(CooldownBread(_logItem.LogBreadCooldown));
+                        break;
+                    case ItemType.Fruits:
+                        if (!_fruitable) return;
+                        StartCoroutine(CooldownFruit(_logItem.LogFruitsCooldown));
+                        break;
+                    case ItemType.Log:
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                _itemJaugeDic[foodScript.GetItem.Type].UseObject(foodScript.GetItem, col.gameObject);
             }
-            amountOfFood++;
+            _amountOfFood++;
         }
-        if(Hittable && col.gameObject.GetComponent<StickScript>() != null){
-            if(col.transform.tag == "Stick"){
-                StartCoroutine(Cooldown(CooldownHealth));
-                HealthJauge.UseObject(col.gameObject.GetComponent<StickScript>().value, col.gameObject, "stick");
+        
+        if(_hittable && col.gameObject.GetComponent<StickScript>() != null){
+            if(col.transform.CompareTag("Stick")){
+                StartCoroutine(CooldownHit(_logItem.LogHealthCooldown));
+                _healthJauge.UseObject(col.gameObject.GetComponent<StickScript>().GetItem, col.gameObject);
             }
         }
     }
-    public void checkUpJauges(){
-        if(fruitAmount==100 && biscuitAmount==100 && breadAmount==100){
-            healthAmount = 100;
-            HealthBar.SetActive(true);
-            Hittable = true;
+
+
+    public void CheckUpJauges(){
+        if(_fruitAmount>=100 && _biscuitAmount>=100 && _breadAmount>=100){
+            _healthAmount = 100;
+            _healthBar.SetActive(true);
+            _hittable = true;
         }
     }
     public void LogHealthCheckUp(){
-        if(healthAmount<=0){
-            Hittable = false;
-            Debug.Log("you got "+Mathf.RoundToInt(amountOfFood*5)+" leafs");
-            GameObject.Find("ShopManager").GetComponent<ShopManager>().Leaf += Mathf.RoundToInt((amountOfFood*15)*multiplier);
-            GameObject.Find("ShopManager").GetComponent<ShopManager>().actualLogs--;
-            Destroy(this.gameObject);
+        if(_healthAmount<=0){
+            _hittable = false;
+            Debug.Log("you got "+Mathf.RoundToInt(_amountOfFood*15*_logItem.LogMultiplier)+" leafs");
+            _shopManager._leaf += Mathf.RoundToInt((_amountOfFood*15)*_logItem.LogMultiplier);
+            _shopManager._actualLogs--;
+            Destroy(gameObject);
         }
     }
-    public IEnumerator Cooldown(float cd){
-        if(Hittable){
-            Hittable = false;
+
+    private IEnumerator CooldownHit(float cd){
+        if(_hittable){
+            _hittable = false;
             yield return new WaitForSeconds(cd);
-            Hittable = true;
+            _hittable = true;
         }
     }
-    IEnumerator cooldownFruit(float cd){
-        if(!fruitable){
-            yield return new WaitForSeconds(cd);
-            fruitable=true;
-        }
+
+    private IEnumerator CooldownFruit(float cd)
+    {
+        _fruitable = false;
+        yield return new WaitForSeconds(cd);
+        _fruitable=_fruitAmount<100;
     }
-    IEnumerator cooldownBiscuit(float cd){
-        if(!biscuitable){
-            yield return new WaitForSeconds(cd);
-            biscuitable=true;
-        }
+
+    private IEnumerator CooldownBiscuit(float cd)
+    {
+        _biscuitable = false;
+        yield return new WaitForSeconds(cd);
+        _biscuitable=_biscuitAmount<100;
     }
-    IEnumerator cooldownBread(float cd){
-        if(!breadable){
-            yield return new WaitForSeconds(cd);
-            breadable=true;
-        }
+
+    private IEnumerator CooldownBread(float cd)
+    {
+        _breadable = false;
+        yield return new WaitForSeconds(cd);
+        _breadable=_breadAmount<100;
     }
 }

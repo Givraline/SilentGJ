@@ -1,281 +1,194 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
+using ScriptableObjects;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-    [SerializeField] GameObject ShopObject;
-    [SerializeField] Button ShopBtn;
-    bool activated=false;
+    [FormerlySerializedAs("ShopObject")] [SerializeField]
+    private GameObject _shopObject;
 
+    private bool _activated=false;
+
+    [FormerlySerializedAs("Leaf")]
     [Header("Money")]
-    [HideInInspector] public int Leaf;
-    [SerializeField] TextMeshProUGUI leafAmount;
-    float timer = 0f;
-    [SerializeField] float delayAmount = 2;
+    [HideInInspector] public int _leaf;
+    [FormerlySerializedAs("leafAmount")] [SerializeField]
+    private TextMeshProUGUI _leafAmount;
 
+    private float _timer = 0f;
+    [FormerlySerializedAs("delayAmount")] [SerializeField]
+    private float _delayAmount = 2;
+
+    [FormerlySerializedAs("LogPrb")]
     [Header("Logs")]
-    [SerializeField] GameObject LogPrb;
-    [SerializeField] TextMeshProUGUI LogPrice;
-    [SerializeField] int LogsPriceNumber;
-    [SerializeField] Button LogBtn;
-    [SerializeField] int maxLogs;
-    [HideInInspector] public int actualLogs = 0;
+    [SerializeField]
+    private GameObject _logPrb;
+    [FormerlySerializedAs("LogPrice")] [SerializeField]
+    private TextMeshProUGUI _logPrice;
+    [FormerlySerializedAs("LogsPriceNumber")] [SerializeField]
+    private int _logsPriceNumber;
+    [FormerlySerializedAs("LogBtn")] [SerializeField]
+    private Button _logBtn;
+    [FormerlySerializedAs("maxLogs")] [SerializeField]
+    private int _maxLogs;
+    [FormerlySerializedAs("actualLogs")] [HideInInspector] public int _actualLogs = 0;
 
-    [SerializeField] GameObject RareLogPrb;
-    [SerializeField] TextMeshProUGUI RareLogPrice;
-    [SerializeField] int RareLogsPriceNumber;
-    [SerializeField] Button RareLogBtn;
+    [FormerlySerializedAs("RareLogPrb")] [SerializeField]
+    private GameObject _rareLogPrb;
+    [FormerlySerializedAs("RareLogPrice")] [SerializeField]
+    private TextMeshProUGUI _rareLogPrice;
+    [FormerlySerializedAs("RareLogsPriceNumber")] [SerializeField]
+    private int _rareLogsPriceNumber;
+    [FormerlySerializedAs("RareLogBtn")] [SerializeField]
+    private Button _rareLogBtn;
 
-    [SerializeField] GameObject EpicLogPrb;
-    [SerializeField] TextMeshProUGUI EpicLogPrice;
-    [SerializeField] int EpicLogsPriceNumber;
-    [SerializeField] Button EpicLogBtn;
+    [FormerlySerializedAs("EpicLogPrb")] [SerializeField]
+    private GameObject _epicLogPrb;
+    [FormerlySerializedAs("EpicLogPrice")] [SerializeField]
+    private TextMeshProUGUI _epicLogPrice;
+    [FormerlySerializedAs("EpicLogsPriceNumber")] [SerializeField]
+    private int _epicLogsPriceNumber;
+    [FormerlySerializedAs("EpicLogBtn")] [SerializeField]
+    private Button _epicLogBtn;
 
+    [SerializeField] private List<Item> _items;
+    private Dictionary<ItemName, DataHolder> _dataHolders = new();
 
-    [Header("Fruits")]
-    [SerializeField] GameObject BerriesPrb;
-    [SerializeField] TextMeshProUGUI BerriesPrice;
-    [SerializeField] int BerriesPriceNumber;
-    [SerializeField] Button BerriesBtn;
-    [SerializeField] int maxBerries;
-    [HideInInspector] public int actualBerries = 0;
-    
-    [SerializeField] GameObject PearPrb;
-    [SerializeField] TextMeshProUGUI PearPrice;
-    [SerializeField] int PearPriceNumber;
-    [SerializeField] Button PearBtn;
-    [SerializeField] int maxPear;
-    [HideInInspector] public int actualPear = 0;
-
-    [SerializeField] GameObject OrangePrb;
-    [SerializeField] TextMeshProUGUI OrangePrice;
-    [SerializeField] int OrangePriceNumber;
-    [SerializeField] Button OrangeBtn;
-    [SerializeField] int maxOrange;
-    [HideInInspector] public int actualOrange = 0;
-
-    [Header("Bread")]
-    [SerializeField] GameObject SliceOfBreadPrb;
-    [SerializeField] TextMeshProUGUI SliceOfBreadPrice;
-    [SerializeField] int SliceOfBreadPriceNumber;
-    [SerializeField] Button SliceOfBreadBtn;
-    [SerializeField] int maxSliceOfBread;
-    [HideInInspector] public int actualSliceOfBread = 0;
-    
-    [SerializeField] GameObject RoundBreadPrb;
-    [SerializeField] TextMeshProUGUI RoundBreadPrice;
-    [SerializeField] int RoundBreadPriceNumber;
-    [SerializeField] Button RoundBreadBtn;
-    [SerializeField] int maxRoundBread;
-    [HideInInspector] public int actualRoundBread = 0;
-
-    [SerializeField] GameObject BunPrb;
-    [SerializeField] TextMeshProUGUI BunPrice;
-    [SerializeField] int BunPriceNumber;
-    [SerializeField] Button BunBtn;
-    [SerializeField] int maxBun;
-    [HideInInspector] public int actualBun = 0;
-
-    [Header("Biscuits")]
-    [SerializeField] GameObject ShortBreadPrb;
-    [SerializeField] TextMeshProUGUI ShortBreadPrice;
-    [SerializeField] int ShortBreadPriceNumber;
-    [SerializeField] Button ShortBreadBtn;
-    [SerializeField] int maxShortBread;
-    [HideInInspector] public int actualShortBread = 0;
-    
-    [SerializeField] GameObject CookiePrb;
-    [SerializeField] TextMeshProUGUI CookiePrice;
-    [SerializeField] int CookiePriceNumber;
-    [SerializeField] Button CookieBtn;
-    [SerializeField] int maxCookie;
-    [HideInInspector] public int actualCookie = 0;
-
-    [SerializeField] GameObject GingerBreadPrb;
-    [SerializeField] TextMeshProUGUI GingerBreadPrice;
-    [SerializeField] int GingerBreadPriceNumber;
-    [SerializeField] Button GingerBreadBtn;
-    [SerializeField] int maxGingerBread;
-    [HideInInspector] public int actualGingerBread = 0;
-
-    bool cd = false;
-
-    void Start(){
-        ShopBtn.onClick.AddListener(OpenShop);
-        LogBtn.onClick.AddListener(BuyLog);
-        RareLogBtn.onClick.AddListener(BuyRareLog);
-        EpicLogBtn.onClick.AddListener(BuyEpicLog);
-        BerriesBtn.onClick.AddListener(BuyBerries);
-        PearBtn.onClick.AddListener(BuyPear);
-        OrangeBtn.onClick.AddListener(BuyOrange);
-        SliceOfBreadBtn.onClick.AddListener(BuySliceOfBread);
-        RoundBreadBtn.onClick.AddListener(BuyRoundBread);
-        BunBtn.onClick.AddListener(BuyBun);
-        ShortBreadBtn.onClick.AddListener(BuyShortBread);
-        CookieBtn.onClick.AddListener(BuyCookie);
-        GingerBreadBtn.onClick.AddListener(BuyGingerBread);
+    [SerializeField] private GameObject _itemDisplayPrefab;
+    [SerializeField] private List<GameObject> _pagesContent;
 
 
-        LogPrice.SetText(LogsPriceNumber.ToString());
-        RareLogPrice.SetText(RareLogsPriceNumber.ToString());
-        EpicLogPrice.SetText(EpicLogsPriceNumber.ToString());
-        BerriesPrice.SetText(BerriesPriceNumber.ToString());
-        PearPrice.SetText(PearPriceNumber.ToString());
-        OrangePrice.SetText(OrangePriceNumber.ToString());
-        SliceOfBreadPrice.SetText(SliceOfBreadPriceNumber.ToString());
-        RoundBreadPrice.SetText(RoundBreadPriceNumber.ToString());
-        BunPrice.SetText(BunPriceNumber.ToString());
-        ShortBreadPrice.SetText(ShortBreadPriceNumber.ToString());
-        CookiePrice.SetText(CookiePriceNumber.ToString());
-        GingerBreadPrice.SetText(GingerBreadPriceNumber.ToString());
+    private bool _cd = false;
 
-        ShopObject.SetActive(false);
-        leafAmount.SetText(Leaf.ToString());
+    private void Awake()
+    {
+        _items.Sort((item, item1) => item.Cost.CompareTo(item1.Cost));
+        foreach (Item item in _items)
+        {
+            _dataHolders[item.Name] = new DataHolder(item);
+            ItemDisplayScript itemDisplayScript = Instantiate(_itemDisplayPrefab, _pagesContent[(int)item.Type].transform).GetComponent<ItemDisplayScript>();
+            itemDisplayScript.Config(this, item);
+        }
     }
 
-    void Update(){
-        if (Input.GetKeyDown(KeyCode.B)&&!cd)
+    private void Start(){
+        _shopObject.SetActive(false);
+        _activated = false;
+        _leafAmount.SetText(_leaf.ToString());
+    }
+
+    public DataHolder GetDataHolderOf(ItemName itemName)
+    {
+        return _dataHolders[itemName];
+    }
+
+    private void Update(){
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            StartCoroutine(cooldown());
-            if(activated){
-                ShopObject.SetActive(true);
-                activated=false;
+            if(!_activated){
+                _shopObject.SetActive(true);
+                _activated=true;
             }else{
-                ShopObject.SetActive(false);
-                activated=true;
+                _shopObject.SetActive(false);
+                _activated=false;
             }   
         }
-        timer += Time.deltaTime;
-        if(timer>= delayAmount){
-            timer=0f;
-            Leaf++;
-            leafAmount.SetText(Leaf.ToString());
+        _timer += Time.deltaTime;
+        if(_timer>= _delayAmount){
+            _timer=0f;
+            //_leaf++;
+            _leafAmount.SetText(_leaf.ToString());
         }        
     }
 
-    void OpenShop(){
-        if(!cd){
-            StartCoroutine(cooldown());
-            if(activated){
-                ShopObject.SetActive(true);
-                activated=false;
-            }else{
-                ShopObject.SetActive(false);
-                activated=true;
-            }  
+    public void AddLeaf(int value)
+    {
+        _leaf+= value;
+        _leafAmount.SetText(_leaf.ToString());
+    }
+
+    public void OpenShop(){
+        if(!_activated){
+            _shopObject.SetActive(true);
+            _activated=true;
+        }else{
+            _shopObject.SetActive(false);
+            _activated=false;
+        }  
+    }
+    
+    public void BuyItem(ItemName itemName)
+    {
+        DataHolder dataHolder = GetDataHolderOf(itemName);
+        if (_leaf >= dataHolder.Cost && !_cd && dataHolder.CanHaveMore())
+        {
+            dataHolder.AddAmount(1);
+            StartCoroutine(Cooldown());
+            WriteLeaf(dataHolder.Cost);
+
+            switch (dataHolder.Type)
+            {
+                case ItemType.Log:
+                    LogManager logScript = Instantiate(dataHolder.Prefab).GetComponent<LogManager>();
+                    logScript.Config(this, dataHolder.Item);
+                    break;
+                case ItemType.Biscuits:
+                case ItemType.Bread:
+                case ItemType.Fruits:
+                    FoodScript foodScript = Instantiate(dataHolder.Prefab).GetComponent<FoodScript>();
+                    foodScript.SetItem(dataHolder.Item);
+                    break;
+                case ItemType.Stick:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
         }
     }
 
-    void BuyLog(){
-        if(Leaf >= LogsPriceNumber && !cd && actualLogs<maxLogs){
-            actualLogs++;
-            StartCoroutine(cooldown());
-            WriteLeaf(LogsPriceNumber);
-            Instantiate(LogPrb);
-        }
-    }
-    void BuyRareLog(){
-        if(Leaf >= RareLogsPriceNumber && !cd && actualLogs<maxLogs){
-            actualLogs++;
-            StartCoroutine(cooldown());
-            WriteLeaf(RareLogsPriceNumber);
-            Instantiate(RareLogPrb);
-        }
-    }
-    void BuyEpicLog(){
-        if(Leaf >= EpicLogsPriceNumber && !cd && actualLogs<maxLogs){
-            actualLogs++;
-            StartCoroutine(cooldown());
-            WriteLeaf(EpicLogsPriceNumber);
-            Instantiate(EpicLogPrb);
-        }
+    private void WriteLeaf(int substractLeaf){
+        _leaf-=substractLeaf;
+        _leafAmount.SetText(_leaf.ToString());
     }
 
-    void BuyBerries(){
-        if(Leaf >= BerriesPriceNumber && !cd && actualBerries<maxBerries){
-            actualBerries++;
-            StartCoroutine(cooldown());
-            WriteLeaf(BerriesPriceNumber);
-            Instantiate(BerriesPrb);
-        }
-    }
-    void BuyPear(){
-        if(Leaf >= PearPriceNumber && !cd && actualPear<maxPear){
-            actualPear++;
-            StartCoroutine(cooldown());
-            WriteLeaf(PearPriceNumber);
-            Instantiate(PearPrb);
-        }
-    }
-    void BuyOrange(){
-        if(Leaf >= OrangePriceNumber && !cd && actualOrange<maxOrange){
-            actualOrange++;
-            StartCoroutine(cooldown());
-            WriteLeaf(OrangePriceNumber);
-            Instantiate(OrangePrb);
-        }
-    }
-
-    void BuySliceOfBread(){
-        if(Leaf >= SliceOfBreadPriceNumber && !cd && actualSliceOfBread<maxSliceOfBread){
-            actualSliceOfBread++;
-            StartCoroutine(cooldown());
-            WriteLeaf(SliceOfBreadPriceNumber);
-            Instantiate(SliceOfBreadPrb);
-        }
-    }
-    void BuyRoundBread(){
-        if(Leaf >= RoundBreadPriceNumber && !cd && actualRoundBread<maxRoundBread){
-            actualRoundBread++;
-            StartCoroutine(cooldown());
-            WriteLeaf(RoundBreadPriceNumber);
-            Instantiate(RoundBreadPrb);
-        }
-    }
-    void BuyBun(){
-        if(Leaf >= BunPriceNumber && !cd && actualBun<maxBun){
-            actualBun++;
-            StartCoroutine(cooldown());
-            WriteLeaf(BunPriceNumber);
-            Instantiate(BunPrb);
-        }
-    }
-
-    void BuyShortBread(){
-        if(Leaf >= ShortBreadPriceNumber && !cd && actualShortBread<maxShortBread){
-            actualShortBread++;
-            StartCoroutine(cooldown());
-            WriteLeaf(ShortBreadPriceNumber);
-            Instantiate(ShortBreadPrb);
-        }
-    }
-    void BuyCookie(){
-        if(Leaf >= CookiePriceNumber && !cd && actualCookie<maxCookie){
-            actualCookie++;
-            StartCoroutine(cooldown());
-            WriteLeaf(CookiePriceNumber);
-            Instantiate(CookiePrb);
-        }
-    }
-    void BuyGingerBread(){
-        if(Leaf >= GingerBreadPriceNumber && !cd && actualGingerBread<maxGingerBread){
-            actualGingerBread++;
-            StartCoroutine(cooldown());
-            WriteLeaf(GingerBreadPriceNumber);
-            Instantiate(GingerBreadPrb);
-        }
-    }
-
-    void WriteLeaf(int substractLeaf){
-        Leaf-=substractLeaf;
-        leafAmount.SetText(Leaf.ToString());
-    }
-    IEnumerator cooldown(){
-        cd=true;
+    private IEnumerator Cooldown(){
+        _cd = true;
         yield return new WaitForSeconds(0.2f);
-        cd = false;
+        _cd = false;
+    }
+
+        
+}
+
+public class DataHolder{
+    
+    public ItemName GetName { get; private set; }
+    public int Count { get; private set; }
+    public Item Item { get; private set; }
+    public int MaxCount => Item.MaxCount;
+    public int Cost => Item.Cost;
+    public ItemType Type => Item.Type;
+    public GameObject Prefab => Item.Prefab;
+    
+    public DataHolder(Item item)
+    {
+        Item = item;
+    }
+
+    public void AddAmount(int amount)
+    {
+        Count += amount;
+    }
+
+    public bool CanHaveMore()
+    {
+        return Count < MaxCount;
     }
 }
+

@@ -11,13 +11,25 @@
         RoundBread = 6,
         Berries = 7,
         Orange = 8,
-        Pear = 9
+        Pear = 9,
+        CommonLog = 10,
+        RareLog = 11,
+        EpicLog = 12
     }
     public enum ItemType
     {
-        Null = 0,
+        Log = 0,
         Biscuits = 1,
         Bread = 2,
         Fruits = 3,
+        Stick = 4,
+    }
+
+    public enum ItemTier
+    {
+        Common = 0,
+        Uncommon = 1,
+        Rare = 2,
+        
     }
 }

@@ -1,53 +1,78 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Enums;
+using ScriptableObjects;
 using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
 {
-    Vector3 dragOffset;
-    Camera cam;
-    Transform topBorder;
-    Transform botBorder;
-    Transform leftBorder;
-    Transform rightBorder;
+    private Vector3 _dragOffset;
+    private Camera _cam;
+    private Transform _topBorder;
+    private Transform _botBorder;
+    private Transform _leftBorder;
+    private Transform _rightBorder;
+    private ShopManager _shopManager;
+    private Item _item;
+    
 
-    void Awake(){
-        cam = Camera.main;
-        topBorder = GameObject.Find("topBorder").transform;
-        botBorder = GameObject.Find("botBorder").transform;
-        leftBorder = GameObject.Find("leftBorder").transform;
-        rightBorder = GameObject.Find("rightBorder").transform;
+    private void Awake(){
+        _cam = Camera.main;
+        _topBorder = GameObject.Find("topBorder").transform;
+        _botBorder = GameObject.Find("botBorder").transform;
+        _leftBorder = GameObject.Find("leftBorder").transform;
+        _rightBorder = GameObject.Find("rightBorder").transform;
     }
 
-    void OnMouseDown(){
-        dragOffset = transform.position - GetMousePos();
-    }
-
-    void OnMouseDrag(){
-        transform.position = GetMousePos() + dragOffset;
-        if(transform.position.x < leftBorder.position.x || transform.position.x > rightBorder.position.x){
-            transform.position = new Vector3(0, 0, 0);
-        }
-        if(transform.position.y < botBorder.position.y || transform.position.y > topBorder.position.y){
-            transform.position = new Vector3(0, 0, 0);
-        }
-    }
-    void Upodate(){
-        if(transform.position.x < leftBorder.position.x || transform.position.x > rightBorder.position.x){
-            transform.position = new Vector3(0, 0, 0);
-        }
-        if(transform.position.y < botBorder.position.y || transform.position.y > topBorder.position.y){
-            transform.position = new Vector3(0, 0, 0);
-        }
-    }
-    void OnCollisionEnter2D(Collision2D col){
-        if(col.gameObject.tag == "DeathZone"){
-            transform.position = new Vector3(0, 0, 0);
+    private void Start()
+    {
+        LogManager temp = GetComponent<LogManager>();
+        if (temp!=null)
+        {
+            _shopManager = temp.GetShopManager();
+            _item = temp.GetLogItem();
         }
     }
 
-    Vector3 GetMousePos(){
-        var mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+    private void OnMouseDown()
+    {
+        _dragOffset = transform.position - GetMousePos();
+    }
+
+    private void OnMouseUp()
+    {
+        if (_shopManager!=null && Vector3.Distance(transform.position, GetMousePos()) < 2f)
+        {
+             _shopManager.AddLeaf(_item.LogMultiplier);
+        }
+    }
+
+    private void OnMouseDrag(){
+        transform.position = GetMousePos() + _dragOffset;
+        if(transform.position.x < _leftBorder.position.x || transform.position.x > _rightBorder.position.x){
+            transform.position = new Vector3(0, 0, 0);
+        }
+        if(transform.position.y < _botBorder.position.y || transform.position.y > _topBorder.position.y){
+            transform.position = new Vector3(0, 0, 0);
+        }
+    }
+
+    private void Upodate(){
+        if(transform.position.x < _leftBorder.position.x || transform.position.x > _rightBorder.position.x){
+            transform.position = new Vector3(0, 0, 0);
+        }
+        if(transform.position.y < _botBorder.position.y || transform.position.y > _topBorder.position.y){
+            transform.position = new Vector3(0, 0, 0);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D col){
+        if(col.gameObject.CompareTag("DeathZone")){
+            transform.position = new Vector3(0, 0, 0);
+        }
+    }
+
+    private Vector3 GetMousePos(){
+        var mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         return mousePos;
     }

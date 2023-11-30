@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class StickScript : MonoBehaviour
 {
-    public int value;
+    [FormerlySerializedAs("value")] public int _value;
+    public Item GetItem;
 }

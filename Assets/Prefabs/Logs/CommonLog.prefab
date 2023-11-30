@@ -432,7 +432,6 @@ GameObject:
   - component: {fileID: 4458285809799213415}
   - component: {fileID: 269492678399395217}
   - component: {fileID: 4727774538196622}
-  - component: {fileID: 7421290235474373473}
   - component: {fileID: 2994878603465501560}
   - component: {fileID: 7191407244782051506}
   m_Layer: 0
@@ -562,18 +561,6 @@ MonoBehaviour:
   fruitable: 1
   biscuitable: 1
   breadable: 1
---- !u!114 &7421290235474373473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2315426921412819014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf8209e086c7ed14b9c2fe47a0379f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &2994878603465501560
 BoxCollider2D:
   m_ObjectHideFlags: 0
