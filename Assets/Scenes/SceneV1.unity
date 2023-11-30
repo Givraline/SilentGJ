@@ -1038,7 +1038,7 @@ MonoBehaviour:
   _logPrice: {fileID: 0}
   _logsPriceNumber: 0
   _logBtn: {fileID: 0}
-  _maxLogs: 4
+  _maxLogs: 5
   _actualLogs: 0
   _rareLogPrb: {fileID: 8607807836454058795, guid: d4bbae90038b6b0438ffc24bd252f5bd, type: 3}
   _rareLogPrice: {fileID: 0}
@@ -3843,6 +3843,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100229877250193401, guid: 2a174b80993d291458e8859f23996681, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2836151848090673972, guid: 2a174b80993d291458e8859f23996681, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.65660274
