@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c73c5a17a948c4a8e874a3020c617c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 20
+  _value: 20
 --- !u!50 &686688192342185242
 Rigidbody2D:
   serializedVersion: 4
@@ -246,7 +246,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}

@@ -13,6 +13,8 @@ public class DragAndDrop : MonoBehaviour
     private Transform _rightBorder;
     private ShopManager _shopManager;
     private Item _item;
+    private Rigidbody2D _rb;
+    private Vector2 _massCenter;
     
 
     private void Awake(){
@@ -21,6 +23,8 @@ public class DragAndDrop : MonoBehaviour
         _botBorder = GameObject.Find("botBorder").transform;
         _leftBorder = GameObject.Find("leftBorder").transform;
         _rightBorder = GameObject.Find("rightBorder").transform;
+        _rb = GetComponent<Rigidbody2D>();
+        _massCenter = _rb.centerOfMass;
     }
 
     private void Start()
@@ -36,6 +40,7 @@ public class DragAndDrop : MonoBehaviour
     private void OnMouseDown()
     {
         _dragOffset = transform.position - GetMousePos();
+        _rb.freezeRotation = true;
     }
 
     private void OnMouseUp()
@@ -44,6 +49,7 @@ public class DragAndDrop : MonoBehaviour
         {
              _shopManager.AddLeaf(_item.LogMultiplier);
         }
+        _rb.freezeRotation = false;
     }
 
     private void OnMouseDrag(){
@@ -54,6 +60,7 @@ public class DragAndDrop : MonoBehaviour
         if(transform.position.y < _botBorder.position.y || transform.position.y > _topBorder.position.y){
             transform.position = new Vector3(0, 0, 0);
         }
+        if (transform.position.y > 0) transform.rotation = Quaternion.identity;
     }
 
     private void Upodate(){
