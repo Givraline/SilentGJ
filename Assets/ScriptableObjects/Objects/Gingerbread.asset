@@ -17,10 +17,11 @@ MonoBehaviour:
   _prefab: {fileID: 6262409952075897053, guid: 719758e4e206328489eaf2e4b0b63ff9, type: 3}
   _itemTier: 0
   _cost: 20
-  _maxCount: 2
-  _value: 1
+  _maxCount: 3
+  _value: 20
   _logHealth: 0
   _logMultiplier: 0
+  _logPassiveLeafCooldown: 0
   _logHealthCooldown: 0
   _logFruitsCooldown: 0
   _logBiscuitsCooldown: 0
