@@ -161,7 +161,7 @@ public class LogManager : MonoBehaviour
         FoodScript foodScript = col.gameObject.GetComponent<FoodScript>();
         if(foodScript != null){
 
-            if ((int)foodScript.GetItem.Tier >= (int)_tier)
+            if ((int)foodScript.GetItem.Tier >= (int)_logItem.Tier)
             {
                 switch (foodScript.GetItem.Type)
                 {
