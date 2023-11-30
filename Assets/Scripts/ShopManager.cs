@@ -102,9 +102,15 @@ public class ShopManager : MonoBehaviour
         _timer += Time.deltaTime;
         if(_timer>= _delayAmount){
             _timer=0f;
-            _leaf++;
+            //_leaf++;
             _leafAmount.SetText(_leaf.ToString());
         }        
+    }
+
+    public void AddLeaf(int value)
+    {
+        _leaf+= value;
+        _leafAmount.SetText(_leaf.ToString());
     }
 
     public void OpenShop(){

@@ -1,3 +1,6 @@
+using System;
+using Enums;
+using ScriptableObjects;
 using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
@@ -8,6 +11,9 @@ public class DragAndDrop : MonoBehaviour
     private Transform _botBorder;
     private Transform _leftBorder;
     private Transform _rightBorder;
+    private ShopManager _shopManager;
+    private Item _item;
+    
 
     private void Awake(){
         _cam = Camera.main;
@@ -17,8 +23,27 @@ public class DragAndDrop : MonoBehaviour
         _rightBorder = GameObject.Find("rightBorder").transform;
     }
 
-    private void OnMouseDown(){
+    private void Start()
+    {
+        LogManager temp = GetComponent<LogManager>();
+        if (temp!=null)
+        {
+            _shopManager = temp.GetShopManager();
+            _item = temp.GetLogItem();
+        }
+    }
+
+    private void OnMouseDown()
+    {
         _dragOffset = transform.position - GetMousePos();
+    }
+
+    private void OnMouseUp()
+    {
+        if (_shopManager!=null && Vector3.Distance(transform.position, GetMousePos()) < 2f)
+        {
+             _shopManager.AddLeaf(_item.LogMultiplier);
+        }
     }
 
     private void OnMouseDrag(){

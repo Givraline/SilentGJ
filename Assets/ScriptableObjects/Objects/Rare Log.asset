@@ -18,6 +18,11 @@ MonoBehaviour:
   _itemTier: 1
   _cost: 75
   _maxCount: 4
-  _foodValue: 0
+  _value: 0
   _logHealth: 0
   _logMultiplier: 2
+  _logPassiveLeafCooldown: 10
+  _logHealthCooldown: 0
+  _logFruitsCooldown: 0
+  _logBiscuitsCooldown: 0
+  _logBreadCooldown: 0

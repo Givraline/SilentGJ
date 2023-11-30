@@ -55,7 +55,13 @@ public class LogManager : MonoBehaviour
     [FormerlySerializedAs("breadable")] [HideInInspector] public bool _breadable=true;
 
     private Item _logItem;
+    private bool _leafGeneration;
+
+    public Item GetLogItem() => _logItem;
+    
     private ShopManager _shopManager;
+
+    public ShopManager GetShopManager() => _shopManager;
 
     private float _amountOfFood = 0;
     [SerializeField] private ItemTier _tier;
@@ -63,6 +69,7 @@ public class LogManager : MonoBehaviour
 
     private void Awake()
     {
+        _leafGeneration = true;
         _itemJaugeDic[ItemType.Biscuits] = _biscuitsJauge;
         _itemJaugeDic[ItemType.Bread] = _breadJauge;
         _itemJaugeDic[ItemType.Fruits] = _fruitJauge;
@@ -101,7 +108,19 @@ public class LogManager : MonoBehaviour
             _jump=false;
             _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
         }
+        if (_leafGeneration)
+        {
+            _shopManager.AddLeaf(1);
+            StartCoroutine(CooldownLeaves(_logItem.LogPassiveLeafCooldown));
+        }
 	}
+
+    private IEnumerator CooldownLeaves(float cooldown)
+    {
+        _leafGeneration = false;
+        yield return new WaitForSeconds(cooldown);
+        _leafGeneration = true;
+    }
 
     private void FixedUpdate (){
         if(!_dontMove){

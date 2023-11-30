@@ -18,6 +18,7 @@ namespace ScriptableObjects
         
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logHealth;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private int _logMultiplier;
+        [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logPassiveLeafCooldown;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logHealthCooldown;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logFruitsCooldown;
         [SerializeField, ShowIf("_itemType", ItemType.Log)] private float _logBiscuitsCooldown;
@@ -37,5 +38,6 @@ namespace ScriptableObjects
         public float LogFruitsCooldown => _logFruitsCooldown;
         public float LogBiscuitsCooldown => _logBiscuitsCooldown;
         public float LogBreadCooldown => _logBreadCooldown;
+        public float LogPassiveLeafCooldown => _logPassiveLeafCooldown;
     }
 }
